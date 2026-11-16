@@ -2645,6 +2645,7 @@ struct spawn_context {
 #define SPAWN_SPLIT 0x400
 #define SPAWN_MODAL 0x800
 #define SPAWN_FLOATOVERZOOM 0x1000
+#define SPAWN_SAMESCOPE 0x2000
 };
 
 /* Paste buffer. */

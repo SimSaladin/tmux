@@ -516,11 +516,12 @@ spawn_pane(struct spawn_context *sc, char **cause)
 	/*
 	 * Move the child process into a new cgroup for systemd-oomd isolation.
 	 */
-	if (systemd_move_to_new_cgroup(cause) < 0) {
-		log_debug("%s: moving pane to new cgroup failed: %s",
-		    __func__, *cause);
-		free (*cause);
-	}
+        if (!(sc->flags & SPAWN_SAMESCOPE))
+	        if (systemd_move_to_new_cgroup(cause) < 0) {
+	        	log_debug("%s: moving pane to new cgroup failed: %s",
+	        	    __func__, *cause);
+	        	free (*cause);
+	        }
 #endif
 	/*
 	 * Child process. Set PWD to the working directory.

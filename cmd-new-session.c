@@ -40,8 +40,8 @@ const struct cmd_entry cmd_new_session_entry = {
 	.description = "Create a new session.",
 	.alias = "new",
 
-	.args = { "Ac:dDe:EF:f:n:Ps:t:x:Xy:", 0, -1, NULL },
-	.usage = "[-AdDEPX] [-c start-directory] [-e environment] [-F format] "
+	.args = { "Ac:dDe:EF:f:n:JPs:t:x:Xy:", 0, -1, NULL },
+	.usage = "[-AdDEJPX] [-c start-directory] [-e environment] [-F format] "
 		 "[-f flags] [-n window-name] [-s session-name] "
 		 CMD_TARGET_SESSION_USAGE " [-x width] [-y height] "
 		 "[shell-command [argument ...]]",
@@ -306,6 +306,9 @@ cmd_new_session_exec(struct cmd *self, struct cmdq_item *item)
 	sc.cwd = args_get(args, 'c');
 
 	sc.flags = 0;
+
+        if (args_has(args, 'J'))
+            sc.flags |= SPAWN_SAMESCOPE;
 
 	if (spawn_window(&sc, &cause) == NULL) {
 		session_destroy(s, 0, __func__);

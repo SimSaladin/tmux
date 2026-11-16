@@ -39,8 +39,8 @@ const struct cmd_entry cmd_new_window_entry = {
 	.description = "Create a window.",
 	.alias = "neww",
 
-	.args = { "abc:de:EF:kn:PSt:", 0, -1, NULL },
-	.usage = "[-abdEkPS] [-c start-directory] [-e environment] [-F format] "
+	.args = { "abc:de:EF:Jkn:PSt:", 0, -1, NULL },
+	.usage = "[-abdEJkPS] [-c start-directory] [-e environment] [-F format] "
 		 "[-n window-name] " CMD_TARGET_WINDOW_USAGE
 		 " [shell-command [argument ...]]",
 
@@ -158,6 +158,8 @@ cmd_new_window_exec(struct cmd *self, struct cmdq_item *item)
 		sc.flags |= SPAWN_DETACHED;
 	if (args_has(args, 'k'))
 		sc.flags |= SPAWN_KILL;
+        if (args_has(args, 'J'))
+                sc.flags |= SPAWN_SAMESCOPE;
 
 	if ((new_wl = spawn_window(&sc, &cause)) == NULL) {
 		cmdq_error(item, "create window failed: %s", cause);

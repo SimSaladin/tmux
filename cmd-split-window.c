@@ -41,8 +41,8 @@ const struct cmd_entry cmd_new_pane_entry = {
 	.description = "Create a floating pane.",
 	.alias = "newp",
 
-	.args = { "AbB:Cc:Dde:EfF:hIkl:KLMm:Op:PR:s:S:t:T:vWx:X:y:Y:Z", 0, -1, NULL },
-	.usage = "[-AbCDdEfhIkKLMOPvWZ] [-B border-lines] "
+	.args = { "AbB:Cc:Dde:EfF:hIJkl:KLMm:Op:PR:s:S:t:T:vWx:X:y:Y:Z", 0, -1, NULL },
+	.usage = "[-AbCDdEfhIJkKLMOPvWZ] [-B border-lines] "
 		 "[-c start-directory] [-e environment] "
 		 "[-F format] [-l size] [-m message] [-p percentage] "
 		 "[-s style] [-S active-border-style] "
@@ -143,6 +143,8 @@ cmd_split_window_exec(struct cmd *self, struct cmdq_item *item)
 		flags |= SPAWN_ZOOM;
 	if (args_has(args, 'O'))
 		flags |= SPAWN_MODAL|SPAWN_FLOATOVERZOOM;
+        if (args_has(args, 'J'))
+                flags |= SPAWN_SAMESCOPE;
 	if (is_floating && args_has(args, 'A'))
 		flags |= SPAWN_FLOATOVERZOOM;
 	if ((w->flags & WINDOW_ZOOMED) && (flags & SPAWN_FLOATOVERZOOM))
